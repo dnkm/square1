@@ -7,12 +7,9 @@
 
 class Stage {
     constructor(stageLevel, canvas) {
-	this.canvas = canvas;
 	this.ctx = canvas.getContext('2d');
   	this.board = []; // 2-D board grid
   	this.actions = []; // 2-D actions
-  	this.player = new Player(this.canvas, canvas.width / 5, canvas.height / 5, 30, 30);
-  	this.units = [this.player];
   	/* debugging */
 	//  	this.ctx.beginPath();
 	//  	this.ctx.fillRect(10, 10,dim.blockWidth / 4,dim.blockWidth / 4);
@@ -37,32 +34,19 @@ class Stage {
   	canvas.addEventListener("mousedown", evt => {
   	    let x = evt.clientX - canvas.x; // clientX and clientY are from the upper lefthand corner of the screen
   	    let y = evt.clientY - canvas.y;
-  	    for (let i = this.actions.length - 1; i >= 0; i--) {
-  		if (this.actions[i].onMousedown(x, y)) break;
-  	    }
+  	    this.actions.forEach(action => action.onMousedown(x, y));
   	});
   	
   	canvas.addEventListener("mouseup", evt => {
-  	    this.actions.forEach(action => action.onMouseup());
+  	    this.actions.forEach(action => action.onMousedown());
   	})
-  	
-  	this.startActions();
-  	
   	this.draw = this.draw.bind(this);
     }
 
-    startActions() {
-	// this.actions.forEach(action => {
-	//   this.player.runAction(action);
-	// })
-	this.player.runAction(this.actions[0]);
-    }
-    
     draw() {
 	this.ctx.clearRect(0, 0, canvas.width, canvas.height);
 	this._drawBoard();
 	this._drawActions();
-	this._drawUnits();
 	requestAnimationFrame(this.draw);
     }
     
@@ -147,13 +131,9 @@ class Stage {
 	ctx.fillRect(dim.x, dim.y, dim.width, dim.height);
 	ctx.fillStyle = Action.TEXT_COLOR;
 	let fontSize = 30;
-	ctx.font = fontSize + "px serif";
+  	ctx.font = fontSize + "px serif";
+  	ctx.fillText("Available Actions", 5, 25);
 	this.actions.forEach(a => a.draw());
-	ctx.fillText("Available Actions", 5, 25);
-    }
-    
-    _drawUnits() {
-	this.units.forEach(u => u.draw());
     }
     
     _initBoard(stageLevel) {
@@ -171,7 +151,7 @@ class Stage {
             let y = this.actionsDim.height / 3;
             return new Action(
 		type,
-		this.canvas,
+		this.ctx,
 		x,
 		y,
 		this.actionsDim.blockWidth,
@@ -192,6 +172,6 @@ Stage.BOARD_DATA = {
 	    [3, 3, 1],
 	    [4, 3, 5]
 	],
-	actions: ['R', 'F']
+	actions: ['L', 'F', 'B', 'R']
     }
 };

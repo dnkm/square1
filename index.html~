@@ -9,11 +9,9 @@
   <body>
     <canvas id = "gameCanvas"></canvas>
     <script src = "CanvasHelper.js"></script>
-    <script src = "Unit.js"></script>
-    <script src = "Player.js"></script>
     <script src = "Action.js"></script>
     <script src = "Stage.js"></script>
     <script src = "Game.js"></script>
-    <script src = "index.js"></script>
+    <script src="index.js"></script>
   </body>
 </html>

@@ -1,29 +1,25 @@
 class Action {
-    constructor(type, canvas, x, y, w, h) {
-  	this.type = type;
-  	this.canvas = canvas;
-  	this.ctx = canvas.getContext('2d');
-  	this.x = x;
-  	this.y = y;
-  	this.w = w;
-  	this.h = h;
-  	this.activated = false;
-  	
-  	switch(this.type) {
-  	case "R":
+    constructor(type, ctx, x, y, w, h) {
+	this.type = type;
+	this.ctx = ctx;
+	this.x = x;
+	this.y = y;
+	this.w = w;
+	this.h = h;
+	this.activated = false;
+	
+	switch(this.type) {
+	case "R":
             this.typeSymbol = "👉"; break;
-  	case "F":
+	case "F":
             this.typeSymbol = "👆"; break;
-  	case "L":
+	case "L":
             this.typeSymbol = "👈"; break;
-  	case "B":
+	case "B":
             this.typeSymbol = "👇"; break;
             
             
 	}
-	
-	this.onMousemove = this.onMousemove.bind(this);
-	
     }
     
     draw() {
@@ -43,31 +39,21 @@ class Action {
   	
   	ctx.fillStyle = Action.TEXT_COLOR;
   	ctx.font = fontSize + "px serif";
-  	ctx.fillText(this.typeSymbol, this.x + this.w / 3, this.y + this.h * 3 / 4);
+  	ctx.fillText(this.typeSymbol, this.x + this.w / 3, this.y + this.h * 2 / 3);
     }
     
     onMousedown(x, y) { // x, y: coord of the mouse click
+	console.log(x, y);
   	if (
   	    x > this.x && x < this.x + this.w &&
     		y > this.y && y < this.y + this.h
   	) {
-  	    this.activated = true;
-  	    this.canvas.addEventListener('mousemove', this.onMousemove);
-  	    return true;
+  	    this.activated ? this.activated = false: this.activated = true;
 	}
-	return false;
-    }
-    
-    onMousemove(evt) {
-	let x = evt.clientX - this.canvas.x - this.w / 2;
-	let y = evt.clientY - this.canvas.y - this.h / 2;
-	this.x = x;
-	this.y = y;
     }
     
     onMouseup() {
 	this.activated = false;
-	this.canvas.removeEventListener('mousemove', this.onMousemove);
     }
 }
 
