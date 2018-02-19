@@ -7,5 +7,28 @@ canvas {
     position: absolute;
     left: 0;
     top: 0;
-    z-index: 1;
+    z-index: 0;
+}
+
+.codeBox{
+  width: 500px;
+  height: 675px;
+  float: right;
+  margin-top: 215px;
+  z-index: 99;
+}
+
+.getCodeButton{
+  float: right;
+  margin-top: 215px;
+}
+
+.runCodeButton{
+  float: right;
+  margin-top: 215px;
+}
+
+#commandBar{
+  position: absolute;
+
 }
