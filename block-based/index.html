@@ -1,0 +1,52 @@
+<!doctype html>
+
+<html>
+  <head>
+    <link rel="stylesheet" href="lib/style.css">
+    <script src="https://blockly-demo.appspot.com/static/blockly_compressed.js"></script>
+    <script src="https://blockly-demo.appspot.com/static/blocks_compressed.js"></script>
+    <script src="https://blockly-demo.appspot.com/static/msg/js/en.js"></script>
+    <script src="https://blockly-demo.appspot.com/static/javascript_compressed.js"></script>
+    <script src="lib/script.js"></script>
+
+    <xml id="toolbox" style="display: none">
+      <block type="controls_if"></block>
+      <block type="controls_repeat_ext"></block>
+      <block type="logic_compare"></block>
+      <block type="math_number"></block>
+      <block type="math_arithmetic"></block>
+      <block type="text"></block>
+      <block type="text_print"></block>
+    </xml>
+
+    <xml id="toolbox2" style="display: none">
+      <category name="Control">
+        <block type="controls_if"></block>
+        <block type="controls_whileUntil"></block>
+        <block type="controls_for">
+      </category>
+      <category name="Logic">
+        <block type="logic_compare"></block>
+        <block type="logic_operation"></block>
+        <block type="logic_boolean"></block>
+      </category>
+    </xml>
+  </head>
+
+  <body>
+    <div id="blocklyDiv" style="height: 480px; width: 600px"></div>
+    <textarea id="textarea" style="height: 480px; width: 600px"></textarea>
+
+    <script>
+      var workspace = Blockly.inject('blocklyDiv',
+          {toolbox: document.getElementById('toolbox')});
+
+      workspace.addChangeListener(myUpdateFunction);
+
+      function myUpdateFunction(event) {
+        var code = Blockly.JavaScript.workspaceToCode(workspace);
+        document.getElementById('textarea').value = code;
+      }
+    </script>
+  </body>
+</html>
