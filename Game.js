@@ -38,15 +38,16 @@ class Game {
 	}.bind(this));
 
     }
+
 }
 
 Game.CANVAS_BORDER = 3
 
 /*
-  button {
-  position: absolute;
-  top: 10px;
-  right: 20px;
-  z-index: 10;
-  }
+button {
+position: absolute;
+top: 10px;
+right: 20px;
+z-index: 10;
+}
 */
