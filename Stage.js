@@ -6,13 +6,15 @@
 // 5 - player
 
 class Stage {
-  constructor(stageLevel, canvas) {
+  constructor(stageInfo, stageLevel, canvas) {
     this.canvas = canvas;
     this.ctx = canvas.getContext('2d');
     this.board = []; // 2-D board grid
     this.actions = []; // 2-D actions
+    this.workspace = [];
     this.player = new Player(this.canvas, canvas.width / 5, canvas.height / 5, 30, 30);
     this.units = [this.player];
+    this.stageInfo = stageInfo;
     /* debugging */
     //  	this.ctx.beginPath();
     //  	this.ctx.fillRect(10, 10,dim.blockWidth / 4,dim.blockWidth / 4);
@@ -24,10 +26,14 @@ class Stage {
       blockLength: 3 * canvas.height / 4 / Stage.STAGE_SIZE
     };
     this.actionsDim = {
-      x: 0,
-      y: 0,
-      width: canvas.width,
-      height: canvas.height * 0.15,
+      avail_x: 0,
+      avail_y: 0,
+      workspace_x : 20 + this.boardDim.boardLength,
+      workspace_y : this.boardDim.y,
+      avail_width: canvas.width,
+      avail_height: canvas.height * 0.15,
+      workspace_width: canvas.width - 20 - this.boardDim.boardLength - 10,
+      workspace_height: this.boardDim.boardLength,
       blockWidth: canvas.width * 0.1,
       blockHeight: canvas.height * 0.1
     };
@@ -141,15 +147,21 @@ class Stage {
     let ctx = this.ctx;
     let actions = this.actions;
     let dim = this.actionsDim;
+    let workspace = this.workspace;
 
-    ctx.beginPath() ;
+    ctx.beginPath();
     ctx.fillStyle = Stage.ACTIONS_BGCOLOR;
-    ctx.fillRect(dim.x, dim.y, dim.width, dim.height);
+    ctx.fillRect(dim.avail_x, dim.avail_y, dim.avail_width, dim.avail_height);
     ctx.fillStyle = Action.TEXT_COLOR;
     let fontSize = 30;
     ctx.font = fontSize + "px serif";
     this.actions.forEach(a => a.draw());
     ctx.fillText("Available Actions", 5, 25);
+    ctx.fillStyle = Stage.WORKSPACE_BGCOLOR;
+    ctx.fillRect(dim.workspace_x, dim.workspace_y, dim.workspace_width, dim.workspace_height);
+    ctx.fillStyle = Action.TEXT_COLOR;
+    this.workspace.forEach(a => a.draw());
+    ctx.fillText("Workspace", dim.workspace_x, dim.workspace_y * 0.95);
   }
 
   _drawUnits() {
@@ -160,7 +172,7 @@ class Stage {
     let board = new Array(Stage.STAGE_SIZE)
     .fill(0)
     .map(() => new Array(Stage.STAGE_SIZE).fill(0));
-    let data = Stage.BOARD_DATA[stageLevel];
+    let data = this.stageInfo[stageLevel];
     data.blocks.forEach(b => {
       board[b[0]][b[1]] = b[2];
     })
@@ -185,13 +197,4 @@ class Stage {
   Stage.BOARD_LINE_COLOR = "rgba(0, 0, 0, 0.1)";
   Stage.CAPTION_TEXT_COLOR = "black";
   Stage.ACTIONS_BGCOLOR = "lightgray";
-  Stage.BOARD_DATA = {
-    1: {
-      blocks: [
-        [3, 2, 4],
-        [3, 3, 1],
-        [4, 3, 5]
-      ],
-      actions: ['R', 'F']
-    }
-  };
+  Stage.WORKSPACE_BGCOLOR = "lightgray";
