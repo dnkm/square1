@@ -13,10 +13,13 @@
       <block type="controls_if"></block>
       <block type="controls_repeat_ext"></block>
       <block type="logic_compare"></block>
+      <block type="logic_boolean"></block>
       <block type="math_number"></block>
       <block type="math_arithmetic"></block>
       <block type="text"></block>
       <block type="text_print"></block>
+      <block type="variables_set"></block>
+      <block type="variables_get"></block>
     </xml>
 
     <xml id="toolbox2" style="display: none">
@@ -35,7 +38,7 @@
 
   <body>
     <div id="blocklyDiv" style="float: left; height: 480px; width: 600px"></div>
-    <textarea id="textarea" style="float: right height: 480px; width: 400px"></textarea>
+    <textarea id="textarea" style="float: right; height: 480px; width: 400px"></textarea>
 
     <script>
       var workspace = Blockly.inject('blocklyDiv',

@@ -5,10 +5,61 @@
     <meta name="viewport" content="width=device-width">
 
     <title>SquareOne</title>
-    <link href="index.css" rel="stylesheet" type="text/css" />
-    <canvas id = "gameCanvas" width="600" height="200" style="border:3px solid #000000;">
-    Your browser does not support the canvas element.
-    </canvas>
+    <link href="index.css?v=2" rel="stylesheet" type="text/css" />
+    <div id="canvasArea">
+      <canvas id = "gameCanvas" width="600" height="200" style="border:3px solid #000000;">
+        Your browser does not support the canvas element.
+      </canvas>
+  </div>
+
+    <!-- blockly -->
+    <script src="https://blockly-demo.appspot.com/static/blockly_compressed.js"></script>
+    <script src="https://blockly-demo.appspot.com/static/blocks_compressed.js"></script>
+    <script src="https://blockly-demo.appspot.com/static/msg/js/en.js"></script>
+    <script src="https://blockly-demo.appspot.com/static/javascript_compressed.js"></script>
+
+    <xml id="toolbox" style="display: none">
+      <block type="controls_if"></block>
+      <block type="controls_repeat_ext"></block>
+      <block type="logic_compare"></block>
+      <block type="logic_boolean"></block>
+      <block type="math_number"></block>
+      <block type="math_arithmetic"></block>
+      <block type="text"></block>
+      <block type="text_print"></block>
+      <block type="variables_set"></block>
+      <block type="variables_get"></block>
+    </xml>
+
+    <xml id="toolbox2" style="display: none">
+      <category name="Control">
+        <block type="controls_if"></block>
+        <block type="controls_whileUntil"></block>
+        <block type="controls_for">
+      </category>
+      <category name="Logic">
+        <block type="logic_compare"></block>
+        <block type="logic_operation"></block>
+        <block type="logic_boolean"></block>
+      </category>
+    </xml>
+
+    <div id="blocklyArea">
+      <div id="blocklyDiv"></div>
+      <textarea id="textarea"></textarea>
+    </div>
+    <script>
+      var workspace = Blockly.inject('blocklyDiv',
+          {toolbox: document.getElementById('toolbox')});
+
+      workspace.addChangeListener(myUpdateFunction);
+
+      function myUpdateFunction(event) {
+        var code = Blockly.JavaScript.workspaceToCode(workspace);
+        document.getElementById('textarea').value = code;
+      }
+    </script>
+    <!-- blockly -->
 
     <script src = "CanvasHelper.js"></script>
     <script src = "Unit.js"></script>
